@@ -1,373 +1,405 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Accessible Profile Card</title>
-    <style>
-        /* Reset & Base Styles */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        :root {
-            --primary-color: #3498db;
-            --secondary-color: #2c3e50;
-            --accent-color: #e74c3c;
-            --light-color: #ecf0f1;
-            --dark-color: #2c3e50;
-            --shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            --border-radius: 12px;
-            --transition: all 0.3s ease;
-        }
-        
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f5f7fa;
-            color: #333;
-            line-height: 1.6;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-        
-        /* Profile Card Container */
-        .profile-card {
-            background-color: white;
-            border-radius: var(--border-radius);
-            box-shadow: var(--shadow);
-            padding: 30px;
-            max-width: 800px;
-            width: 100%;
-        }
-        
-        article[data-testid="test-profile-card"] {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 25px;
-        }
-        
-        /* Header Section */
-        .profile-header {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 20px;
-        }
-        
-        @media (min-width: 768px) {
-            .profile-header {
-                grid-template-columns: 150px 1fr;
-            }
-        }
-        
-        /* Avatar */
-        .avatar-container {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-        
-        .avatar-wrapper {
-            position: relative;
-            width: 150px;
-            height: 150px;
-            overflow: hidden;
-            border-radius: 50%;
-            background-color: var(--light-color);
-            border: 3px solid var(--primary-color);
-            margin: 0 auto;
-        }
-        
-        figure[data-testid="test-user-avatar"] {
-            margin: 0;
-        }
-        
-        .avatar-wrapper img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        
-        /* Upload Container */
-        .upload-container {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            align-items: center;
-        }
-        
-        .upload-label {
-            cursor: pointer;
-            background: var(--primary-color);
-            color: white;
-            padding: 8px 12px;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            transition: var(--transition);
-        }
-        
-        .upload-label:hover {
-            background: var(--secondary-color);
-        }
-        
-        .upload-label:focus-visible {
-            outline: 2px solid var(--secondary-color);
-            outline-offset: 2px;
-        }
-        
-        .upload-input {
-            display: none;
-        }
-        
-        /* User Details */
-        .user-details {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-        
-        h2[data-testid="test-user-name"] {
-            color: var(--secondary-color);
-            font-size: 1.8rem;
-        }
-        
-        p[data-testid="test-user-bio"] {
-            color: #666;
-            font-size: 1.1rem;
-            line-height: 1.6;
-        }
-        
-        .current-time {
-            background-color: var(--light-color);
-            border-left: 4px solid var(--primary-color);
-            padding: 10px;
-            border-radius: 0 8px 8px 0;
-            font-family: monospace;
-            font-size: 1.1rem;
-            color: var(--dark-color);
-        }
-        
-        /* Lists Section */
-        .lists-container {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 20px;
-        }
-        
-        @media (min-width: 600px) {
-            .lists-container {
-                grid-template-columns: 1fr 1fr;
-            }
-        }
-        
-        section {
-            padding: 20px;
-            background-color: var(--light-color);
-            border-radius: var(--border-radius);
-        }
-        
-        section h3 {
-            margin-bottom: 15px;
-            color: var(--secondary-color);
-            position: relative;
-            padding-bottom: 8px;
-        }
-        
-        section h3::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 50px;
-            height: 3px;
-            background-color: var(--primary-color);
-            border-radius: 3px;
-        }
-        
-        ul {
-            list-style-type: none;
-            padding-left: 20px;
-        }
-        
-        ul li {
-            margin-bottom: 8px;
-            position: relative;
-        }
-        
-        ul li::before {
-            content: '•';
-            color: var(--primary-color);
-            font-weight: bold;
-            display: inline-block;
-            width: 1em;
-            margin-left: -1em;
-            font-size: 1.2rem;
-        }
-        
-        /* Social Links */
-        .social-links-section {
-            padding: 20px;
-            background-color: white;
-            border-radius: var(--border-radius);
-            border: 1px solid var(--light-color);
-        }
-        
-        nav[data-testid="test-user-social-links"] ul {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
-            padding-left: 0;
-        }
-        
-        .social-links-section h3 {
-            margin-bottom: 15px;
-            color: var(--secondary-color);
-        }
-        
-        .social-link {
-            display: block;
-            text-decoration: none;
-            background-color: var(--primary-color);
-            color: white;
-            padding: 8px 15px;
-            border-radius: 20px;
-            font-weight: 500;
-            transition: var(--transition);
-        }
-        
-        .social-link:hover {
-            background-color: var(--secondary-color);
-            transform: translateY(-2px);
-        }
-        
-        .social-link:focus-visible {
-            outline: 2px solid var(--secondary-color);
-            outline-offset: 2px;
-        }
-        
-        .social-link.twitter { background-color: #1DA1F2; }
-        .social-link.github { background-color: #333; }
-        .social-link.linkedin { background-color: #0A66C2; }
-        
-        /* Footer */
-        .footer {
-            margin-top: 40px;
-            text-align: center;
-            color: var(--secondary-color);
-            font-size: 0.9rem;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Accessible Profile Card</title>
+  <style>
+    /* Reset & Base Styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --primary-color: #3498db;
+      --secondary-color: #2c3e50;
+      --accent-color: #e74c3c;
+      --light-color: #ecf0f1;
+      --dark-color: #2c3e50;
+      --shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      --border-radius: 12px;
+      --transition: all 0.3s ease;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f5f7fa;
+      color: #333;
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 20px;
+    }
+
+    /* 🧭 Navigation Bar */
+    nav {
+      background-color: white;
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      padding: 12px 25px;
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 30px;
+      width: 100%;
+      max-width: 800px;
+    }
+
+    nav a {
+      text-decoration: none;
+      background-color: var(--primary-color);
+      color: white;
+      padding: 8px 18px;
+      border-radius: 20px;
+      font-weight: 500;
+      transition: var(--transition);
+    }
+
+    nav a:hover {
+      background-color: var(--secondary-color);
+      transform: translateY(-2px);
+    }
+
+    nav a:focus-visible {
+      outline: 2px solid var(--secondary-color);
+      outline-offset: 3px;
+    }
+
+    /* Profile Card Container */
+    .profile-card {
+      background-color: white;
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      padding: 30px;
+      max-width: 800px;
+      width: 100%;
+    }
+
+    article[data-testid="test-profile-card"] {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 25px;
+    }
+
+    /* Header Section */
+    .profile-header {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+
+    @media (min-width: 768px) {
+      .profile-header {
+        grid-template-columns: 150px 1fr;
+      }
+    }
+
+    /* Avatar */
+    .avatar-container {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .avatar-wrapper {
+      position: relative;
+      width: 150px;
+      height: 150px;
+      overflow: hidden;
+      border-radius: 50%;
+      background-color: var(--light-color);
+      border: 3px solid var(--primary-color);
+      margin: 0 auto;
+    }
+
+    figure[data-testid="test-user-avatar"] {
+      margin: 0;
+    }
+
+    .avatar-wrapper img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* Upload Container */
+    .upload-container {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .upload-label {
+      cursor: pointer;
+      background: var(--primary-color);
+      color: white;
+      padding: 8px 12px;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      transition: var(--transition);
+    }
+
+    .upload-label:hover {
+      background: var(--secondary-color);
+    }
+
+    .upload-label:focus-visible {
+      outline: 2px solid var(--secondary-color);
+      outline-offset: 2px;
+    }
+
+    .upload-input {
+      display: none;
+    }
+
+    /* User Details */
+    .user-details {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    h2[data-testid="test-user-name"] {
+      color: var(--secondary-color);
+      font-size: 1.8rem;
+    }
+
+    p[data-testid="test-user-bio"] {
+      color: #666;
+      font-size: 1.1rem;
+      line-height: 1.6;
+    }
+
+    .current-time {
+      background-color: var(--light-color);
+      border-left: 4px solid var(--primary-color);
+      padding: 10px;
+      border-radius: 0 8px 8px 0;
+      font-family: monospace;
+      font-size: 1.1rem;
+      color: var(--dark-color);
+    }
+
+    /* Lists Section */
+    .lists-container {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+
+    @media (min-width: 600px) {
+      .lists-container {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    section {
+      padding: 20px;
+      background-color: var(--light-color);
+      border-radius: var(--border-radius);
+    }
+
+    section h3 {
+      margin-bottom: 15px;
+      color: var(--secondary-color);
+      position: relative;
+      padding-bottom: 8px;
+    }
+
+    section h3::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 50px;
+      height: 3px;
+      background-color: var(--primary-color);
+      border-radius: 3px;
+    }
+
+    ul {
+      list-style-type: none;
+      padding-left: 20px;
+    }
+
+    ul li {
+      margin-bottom: 8px;
+      position: relative;
+    }
+
+    ul li::before {
+      content: '•';
+      color: var(--primary-color);
+      font-weight: bold;
+      display: inline-block;
+      width: 1em;
+      margin-left: -1em;
+      font-size: 1.2rem;
+    }
+
+    /* Social Links */
+    .social-links-section {
+      padding: 20px;
+      background-color: white;
+      border-radius: var(--border-radius);
+      border: 1px solid var(--light-color);
+    }
+
+    nav[data-testid="test-user-social-links"] ul {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      padding-left: 0;
+    }
+
+    .social-links-section h3 {
+      margin-bottom: 15px;
+      color: var(--secondary-color);
+    }
+
+    .social-link {
+      display: block;
+      text-decoration: none;
+      background-color: var(--primary-color);
+      color: white;
+      padding: 8px 15px;
+      border-radius: 20px;
+      font-weight: 500;
+      transition: var(--transition);
+    }
+
+    .social-link:hover {
+      background-color: var(--secondary-color);
+      transform: translateY(-2px);
+    }
+
+    .social-link:focus-visible {
+      outline: 2px solid var(--secondary-color);
+      outline-offset: 2px;
+    }
+
+    .social-link.twitter { background-color: #1DA1F2; }
+    .social-link.github { background-color: #333; }
+    .social-link.linkedin { background-color: #0A66C2; }
+
+    /* Footer */
+    .footer {
+      margin-top: 40px;
+      text-align: center;
+      color: var(--secondary-color);
+      font-size: 0.9rem;
+    }
+  </style>
 </head>
 <body>
-    <!-- Main Profile Card Container -->
-    <article class="profile-card" data-testid="test-profile-card">
-        <!-- Header with Avatar and Details -->
-        <header class="profile-header">
-            <div class="avatar-container">
-                <figure data-testid="test-user-avatar">
-                    <div class="avatar-wrapper">
-                        <img src="https://ik.imagekit.io/tsxxdqfro/image0%20(1).png?updatedAt=1760772352140" 
-                             alt="Profile picture of Alex Johnson" id="avatarImage">
-                    </div>
-                </figure>
-                
-                <div class="upload-container">
-                    <label class="upload-label" for="avatarUpload">Change Photo</label>
-                    <input type="file" id="avatarUpload" class="upload-input" accept="image/*">
-                </div>
-            </div>
-            
-            <div class="user-details">
-                <h2 data-testid="test-user-name">Emeka Njoagwuani</h2>
-                <p data-testid="test-user-bio">Passionate about cybersecurity and technology innovation. I enjoy
-            breaking systems (ethically) to make them stronger and more
-            resilient.</p>
-                <p class="current-time">
-                    <span id="currentTime" data-testid="test-user-time">1691432535000</span>
-                </p>
-            </div>
-        </header>
-        
-        
-        <section class="social-links-section">
-            <h3>Connect with me</h3>
-            <nav data-testid="test-user-social-links">
-                <ul>
-                    <li>
-                        <a href="https://github.com/mznlnc" class="social-link github" 
-                           target="_blank"
-                           rel="noopener noreferrer"
-                           data-testid="test-user-social-github">GitHub</a>
-                    </li>
-                    <li>
-                        <a href="https://linkedin.com/emeka-martins-njoagwuani" class="social-link linkedin" 
-                           target="_blank" rel="noopener noreferrer"
-                           data-testid="test-user-social-linkedin">LinkedIn</a>
-                    </li>
-                </ul>
-            </nav>
-        </section>
-        
-       
-        <div class="lists-container">
-            <section>
-                <h3>Hobbies & Interests</h3>
-                <ul data-testid="test-user-hobbies">
-                    <li>Accessible web design</li>
-                    <li>Watching Anime</li>
-                    <li>Playing CTFs</li>
-                    <li>Video Games</li>
-                    <li>Reading science fiction</li>
-                </ul>
-            </section>
-            
-            <section>
-                <h3>Dislikes</h3>
-                <ul data-testid="test-user-dislikes">
-                    <li>Inaccessible websites</li>
-                    <li>Coffee without caffeine</li>
-                    <li>Browser inconsistencies</li>
-                    <li>Slow internet connections</li>
-                    <li> Bad Food</li>
-                </ul>
-            </section>
+
+  <!-- 🧭 Top Navigation -->
+  <nav>
+    <a href="about.html">📖 About Me</a>
+    <a href="contact.html">✉️ Contact</a>
+  </nav>
+
+  <!-- Main Profile Card -->
+  <article class="profile-card" data-testid="test-profile-card">
+    <header class="profile-header">
+      <div class="avatar-container">
+        <figure data-testid="test-user-avatar">
+          <div class="avatar-wrapper">
+            <img src="https://ik.imagekit.io/tsxxdqfro/image0%20(1).png?updatedAt=1760772352140"
+                 alt="Profile picture of Emeka Njoagwuani" id="avatarImage">
+          </div>
+        </figure>
+        <div class="upload-container">
+          <label class="upload-label" for="avatarUpload">Change Photo</label>
+          <input type="file" id="avatarUpload" class="upload-input" accept="image/*">
         </div>
-    </article>
-    
-    <footer class="footer">
-        <p>Accessible Profile Card Component | Built with Semantic HTML</p>
-    </footer>
-    
-    <script>
-        // Update current time in milliseconds
-        function updateTime() {
-            document.getElementById('currentTime').textContent = Date.now();
-        }
-        
-        // Update time immediately on load
-        updateTime();
-        
-        // Update time every second
-        setInterval(updateTime, 1000);
-        
-        // Avatar upload functionality
-        document.getElementById('avatarUpload').addEventListener('change', function(e) {
-            const file = e.target.files[0];
-            if (file && file.type.match('image.*')) {
-                const reader = new FileReader();
-                
-                reader.onload = function(event) {
-                    document.getElementById('avatarImage').src = event.target.result;
-                };
-                
-                reader.readAsDataURL(file);
-            }
-        });
-    </script>
+      </div>
+
+      <div class="user-details">
+        <h2 data-testid="test-user-name">Emeka Njoagwuani</h2>
+        <p data-testid="test-user-bio">
+          Passionate about cybersecurity and technology innovation. I enjoy breaking systems (ethically)
+          to make them stronger and more resilient.
+        </p>
+        <p class="current-time">
+          <span id="currentTime" data-testid="test-user-time">1691432535000</span>
+        </p>
+      </div>
+    </header>
+
+    <section class="social-links-section">
+      <h3>Connect with me</h3>
+      <nav data-testid="test-user-social-links">
+        <ul>
+          <li>
+            <a href="https://github.com/mznlnc" class="social-link github"
+               target="_blank" rel="noopener noreferrer"
+               data-testid="test-user-social-github">GitHub</a>
+          </li>
+          <li>
+            <a href="https://www.linkedin.com/in/emeka-martins-njoagwuani/" class="social-link linkedin"
+               target="_blank" rel="noopener noreferrer"
+               data-testid="test-user-social-linkedin">LinkedIn</a>
+          </li>
+        </ul>
+      </nav>
+    </section>
+
+    <div class="lists-container">
+      <section>
+        <h3>Hobbies & Interests</h3>
+        <ul data-testid="test-user-hobbies">
+          <li>Accessible web design</li>
+          <li>Watching Anime</li>
+          <li>Playing CTFs</li>
+          <li>Video Games</li>
+          <li>Reading science fiction</li>
+        </ul>
+      </section>
+
+      <section>
+        <h3>Dislikes</h3>
+        <ul data-testid="test-user-dislikes">
+          <li>Inaccessible websites</li>
+          <li>Coffee without caffeine</li>
+          <li>Browser inconsistencies</li>
+          <li>Slow internet connections</li>
+          <li>Bad Food</li>
+        </ul>
+      </section>
+    </div>
+  </article>
+
+  <footer class="footer">
+    <p>Accessible Profile Card Component | Built with Semantic HTML</p>
+  </footer>
+
+  <script>
+    // Update current time in milliseconds
+    function updateTime() {
+      document.getElementById('currentTime').textContent = Date.now();
+    }
+    updateTime();
+    setInterval(updateTime, 1000);
+
+    // Avatar upload
+    document.getElementById('avatarUpload').addEventListener('change', function(e) {
+      const file = e.target.files[0];
+      if (file && file.type.match('image.*')) {
+        const reader = new FileReader();
+        reader.onload = function(event) {
+          document.getElementById('avatarImage').src = event.target.result;
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+  </script>
 </body>
 </html>
