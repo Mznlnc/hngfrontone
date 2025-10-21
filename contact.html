@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Me</title>
+  <style>
+   /* Reset & Base Styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --primary-color: #3498db;
+      --secondary-color: #2c3e50;
+      --accent-color: #e74c3c;
+      --light-color: #ecf0f1;
+      --dark-color: #2c3e50;
+      --shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      --border-radius: 12px;
+      --transition: all 0.3s ease;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f5f7fa;
+      color: #333;
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 20px;
+    }
+
+    main {
+      background-color: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      max-width: 600px;
+      width: 100%;
+    }
+
+    h1 {
+      color: #2c3e50;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    label {
+      font-weight: 600;
+      margin-bottom: 5px;
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 1rem;
+      transition: border 0.3s;
+    }
+
+    input:focus, textarea:focus {
+      border-color: #3498db;
+      outline: none;
+    }
+
+    button {
+      background-color: #3498db;
+      color: white;
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    button:hover {
+      background-color: #2c3e50;
+    }
+
+    .error {
+      color: #e74c3c;
+      font-size: 0.9rem;
+    }
+
+    .success {
+      color: green;
+      font-weight: 600;
+      text-align: center;
+      margin-top: 15px;
+    }
+
+     /* 🧭 Navigation Bar */
+    nav {
+      background-color: white;
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      padding: 12px 25px;
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 30px;
+      width: 100%;
+      max-width: 800px;
+    }
+
+    nav a {
+      text-decoration: none;
+      background-color: var(--primary-color);
+      color: white;
+      padding: 8px 18px;
+      border-radius: 20px;
+      font-weight: 500;
+      transition: var(--transition);
+    }
+
+    nav a:hover {
+      background-color: var(--secondary-color);
+      transform: translateY(-2px);
+    }
+
+    nav a:focus-visible {
+      outline: 2px solid var(--secondary-color);
+      outline-offset: 3px;
+    }
+
+  </style>
+</head>
+<body>
+
+   <!-- 🧭 Top Navigation -->
+  <nav>
+    <a href="index.html">🏠 Home</a>
+    <a href="about.html">📖 About Me</a>
+  </nav>
+
+  <main>
+    <h1>Contact Me</h1>
+
+    <form id="contactForm" novalidate>
+      <div>
+        <label for="fullName">Full Name</label>
+        <input type="text" id="fullName" data-testid="test-contact-name" required aria-describedby="error-name">
+        <p id="error-name" class="error" data-testid="test-contact-error-name"></p>
+      </div>
+
+      <div>
+        <label for="email">Email</label>
+        <input type="email" id="email" data-testid="test-contact-email" required aria-describedby="error-email">
+        <p id="error-email" class="error" data-testid="test-contact-error-email"></p>
+      </div>
+
+      <div>
+        <label for="subject">Subject</label>
+        <input type="text" id="subject" data-testid="test-contact-subject" required aria-describedby="error-subject">
+        <p id="error-subject" class="error" data-testid="test-contact-error-subject"></p>
+      </div>
+
+      <div>
+        <label for="message">Message</label>
+        <textarea id="message" rows="5" data-testid="test-contact-message" required aria-describedby="error-message"></textarea>
+        <p id="error-message" class="error" data-testid="test-contact-error-message"></p>
+      </div>
+
+      <button type="submit" data-testid="test-contact-submit">Submit</button>
+      <p id="successMsg" class="success" data-testid="test-contact-success" style="display:none;">
+        ✅ Message sent successfully!
+      </p>
+    </form>
+  </main>
+
+  <script>
+    document.getElementById("contactForm").addEventListener("submit", function(event) {
+      event.preventDefault();
+
+      const name = document.getElementById("fullName");
+      const email = document.getElementById("email");
+      const subject = document.getElementById("subject");
+      const message = document.getElementById("message");
+      const success = document.getElementById("successMsg");
+
+      let valid = true;
+
+      document.querySelectorAll(".error").forEach(e => e.textContent = "");
+
+      if (!name.value.trim()) {
+        valid = false;
+        document.getElementById("error-name").textContent = "Full name is required.";
+      }
+
+      const emailPattern = /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/;
+      if (!email.value.trim()) {
+        valid = false;
+        document.getElementById("error-email").textContent = "Email is required.";
+      } else if (!emailPattern.test(email.value)) {
+        valid = false;
+        document.getElementById("error-email").textContent = "Please enter a valid email address.";
+      }
+
+      if (!subject.value.trim()) {
+        valid = false;
+        document.getElementById("error-subject").textContent = "Subject is required.";
+      }
+
+      if (!message.value.trim()) {
+        valid = false;
+        document.getElementById("error-message").textContent = "Message is required.";
+      } else if (message.value.trim().length < 10) {
+        valid = false;
+        document.getElementById("error-message").textContent = "Message must be at least 10 characters.";
+      }
+
+      if (valid) {
+        success.style.display = "block";
+        this.reset();
+      } else {
+        success.style.display = "none";
+      }
+    });
+  </script>
+</body>
+</html>
