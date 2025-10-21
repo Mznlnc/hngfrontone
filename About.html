@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About Me</title>
+  <style>
+   /* Reset & Base Styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --primary-color: #3498db;
+      --secondary-color: #2c3e50;
+      --accent-color: #e74c3c;
+      --light-color: #ecf0f1;
+      --dark-color: #2c3e50;
+      --shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      --border-radius: 12px;
+      --transition: all 0.3s ease;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f5f7fa;
+      color: #333;
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 20px;
+    }
+
+   /* 🧭 Navigation Bar */
+    nav {
+      background-color: white;
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      padding: 12px 25px;
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 30px;
+      width: 100%;
+      max-width: 800px;
+    }
+
+    nav a {
+      text-decoration: none;
+      background-color: var(--primary-color);
+      color: white;
+      padding: 8px 18px;
+      border-radius: 20px;
+      font-weight: 500;
+      transition: var(--transition);
+    }
+
+    nav a:hover {
+      background-color: var(--secondary-color);
+      transform: translateY(-2px);
+    }
+
+    nav a:focus-visible {
+      outline: 2px solid var(--secondary-color);
+      outline-offset: 3px;
+    }
+
+    main {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      max-width: 800px;
+      width: 100%;
+      padding: 30px;
+    }
+
+    section {
+      margin-bottom: 25px;
+    }
+
+    h1, h2 {
+      color: #2c3e50;
+    }
+
+    p {
+      line-height: 1.6;
+    }
+  </style>
+</head>
+<body>
+
+   <!-- 🧭 Top Navigation -->
+  <nav>
+    <a href="index.html">🏠 Home</a>
+    <a href="contact.html">✉️ Contact</a>
+  </nav>
+
+  <main data-testid="test-about-page">
+    <h1>About Me</h1>
+
+    <section>
+      <h2>Bio</h2>
+      <p data-testid="test-about-bio">
+        I’m Emeka Njoagwuani a technology enthusiast deeply passionate about cybersecurity and digital innovation. My curiosity drives me to explore vulnerabilities and strengthen systems through ethical hacking and research.
+      </p>
+    </section>
+
+    <section>
+      <h2>Goals in This Program</h2>
+      <p data-testid="test-about-goals">
+        My primary goal is to refine my technical expertise, build stronger foundations in real-world security practices, and contribute to projects that make a measurable impact.
+      </p>
+    </section>
+
+    <section>
+      <h2>Areas of Low Confidence</h2>
+      <p data-testid="test-about-confidence">
+        Sometimes I struggle with balancing speed and precision especially under tight deadlines. I also aim to improve my communication when explaining technical findings to non-technical audiences.
+      </p>
+    </section>
+
+    <section>
+      <h2>Note to My Future Self</h2>
+      <p data-testid="test-about-future-note">
+        Remember: progress is more important than perfection. Keep learning, stay curious, and continue building with integrity.
+      </p>
+    </section>
+
+    <section>
+      <h2>Extra Thoughts</h2>
+      <p data-testid="test-about-extra">
+        I’m constantly inspired by how technology evolves and how collaboration can lead to stronger, safer digital spaces for everyone.
+      </p>
+    </section>
+  </main>
+</body>
+</html>
